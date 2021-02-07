@@ -1,15 +1,13 @@
 import json
 import os
-import socket
 import subprocess
-from contextlib import closing
-from typing import Dict, Any
+import sys
+from typing import Dict, Any, TypeVar, Type
 
+from main.configuration.models import InitData
 from undictify import type_checked_call, type_checked_constructor
-
 from .console_logging import print_error_message
-
-from . import CliCommand, DirPath, FilePath, Host, Port
+from . import CliCommand, DirPath, FilePath, Host, Port, ModuleName
 
 
 @type_checked_call()
@@ -18,6 +16,7 @@ def run_cli_command(command: CliCommand) -> bytes:
         return subprocess.check_output(command)
     except subprocess.CalledProcessError:
         print_error_message(f"Calling subprocess {command} resulted in an error!")
+        sys.exit(1)
 
 
 def create_directory(dir_path: DirPath):
@@ -43,6 +42,13 @@ def create_file_from_dict_to(file_path: FilePath, content: Dict[str, Any]):
         raise FileCreationException(error)
 
 
+def read_application_init_data(file_path: FilePath) -> InitData:
+    with open(file_path, 'r') as file:
+        json_string = json.load(file)
+
+    return InitData(**json_string)
+
+
 @type_checked_constructor()
 class DirectoryCreationException(Exception):
     def __init__(self, cause: OSError):
@@ -53,16 +59,3 @@ class DirectoryCreationException(Exception):
 class FileCreationException(Exception):
     def __init__(self, cause: OSError):
         self.cause = cause
-
-
-def is_host_port_open(host: Host, port: Port) -> bool:
-    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
-        sock.settimeout(2)
-        if sock.connect_ex((host, port)) == 0:
-            return True
-    return False
-
-
-def test():
-    import jetson.inference
-    print("TEST")

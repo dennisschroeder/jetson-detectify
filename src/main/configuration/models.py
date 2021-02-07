@@ -17,5 +17,12 @@ class MqttBroker:
 
 @type_checked_constructor()
 @dataclass
-class CoreConfig:
+class ApplicationConfig:
     mqtt_broker: MqttBroker
+
+
+@type_checked_constructor(skip=True)
+@dataclass
+class InitData:
+    success: bool
+    last_init_run: str

@@ -1,9 +1,9 @@
 import enum
-import sys
 from datetime import datetime
 from enum import Enum
-
 import click
+
+_DATE_TIME_STRING_FORMAT = "%m/%d/%Y %H:%M:%S"
 
 
 def print_blank_line():
@@ -11,12 +11,12 @@ def print_blank_line():
 
 
 def print_error_message(error_message: str):
-    now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    now = datetime.now().strftime(_DATE_TIME_STRING_FORMAT)
     click.secho(f"{now} - ERROR: {error_message}", err=True, fg=_Color.RED.value)
 
 
 def print_info_message(title: str):
-    now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    now = datetime.now().strftime(_DATE_TIME_STRING_FORMAT)
     click.secho(f"{now} - INFO: {title}")
 
 
@@ -32,6 +32,10 @@ def print_info_footer(title: str):
 def print_upcoming_step(message: str):
     # Using python standard print function cause click.echo does not provided end parameter
     print(f"|  ☛  {message}", end="\r")
+
+
+def print_warning_step(title: str):
+    click.secho(f"|  ☢  {title}", fg=_Color.YELLOW.value)
 
 
 def print_success_step(title: str):
@@ -50,10 +54,10 @@ def print_just_text(content: str):
     click.echo(content)
 
 
-
 @enum.unique
 class _Color(Enum):
     RED = "red"
     BLACK = "black"
     WHITE = "white"
     GREEN = "green"
+    YELLOW = "yellow"

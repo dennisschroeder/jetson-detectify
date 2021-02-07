@@ -12,7 +12,17 @@ from .console_logging import print_success_step, print_error_step
 class ApplicationSettings:
     application_base_dir: DirPath
     application_storage_dir: DirPath
+    application_init_report_file: FilePath
     application_settings_file: FilePath
+
+    @staticmethod
+    def create_default():
+        return ApplicationSettings(
+            application_base_dir=DirPath(os.path.expanduser("~/.jetson_detectify")),
+            application_storage_dir=DirPath(os.path.expanduser("~/.jetson_detectify/.storage")),
+            application_init_report_file=FilePath(os.path.expanduser("~/.jetson_detectify/.storage/init.json")),
+            application_settings_file=FilePath(os.path.expanduser("~/.jetson_detectify/application.yaml"))
+        )
 
 
 def write_init_report_to(dir_path: DirPath):
@@ -24,14 +34,6 @@ def write_init_report_to(dir_path: DirPath):
     except FileCreationException as error:
         print_error_step(
             f"Init-Report creation to [{dir_path}] failed. I/O error({error.cause.strerror}): {error.cause.strerror}")
-
-
-def create_default_settings() -> ApplicationSettings:
-    return ApplicationSettings(
-        application_base_dir=DirPath(os.path.expanduser("~/.jetson_detectify")),
-        application_storage_dir=DirPath(os.path.expanduser("~/.jetson_detectify/.storage")),
-        application_settings_file=FilePath(os.path.expanduser("~/.jetson_detectify/application.yaml"))
-    )
 
 
 def create_with_settings(settings: ApplicationSettings):
@@ -65,6 +67,7 @@ def create_application_file(file_path: FilePath, content: str):
         try:
             create_file_from_str_to(file_path=file_path, content=content)
             print_success_step(f"Creating file [{file_path}] succeeded")
+            return
         except FileCreationException as error:
             print_error_step(
                 f"Creating file [{file_path}] failed! I/O error({error.cause.errno}): {error.cause.strerror}")
