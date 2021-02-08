@@ -12,12 +12,17 @@ def print_blank_line():
 
 def print_error_message(error_message: str):
     now = datetime.now().strftime(_DATE_TIME_STRING_FORMAT)
-    click.secho(f"{now} - ERROR: {error_message}", err=True, fg=_Color.RED.value)
+    click.secho(f"|  {now} ☠ {error_message}", err=True, fg=_Color.RED.value)
 
 
-def print_info_message(title: str):
+def print_info_message(message: str):
     now = datetime.now().strftime(_DATE_TIME_STRING_FORMAT)
-    click.secho(f"{now} - INFO: {title}")
+    click.secho(f"| [{now}]  ☛  {message}")
+
+
+def print_success_message(message: str):
+    now = datetime.now().strftime(_DATE_TIME_STRING_FORMAT)
+    click.secho(f"| [{now}]  ✔  {message}", fg=_Color.GREEN.value)
 
 
 def print_info_header(title: str):
@@ -30,7 +35,7 @@ def print_info_footer(title: str):
 
 
 def print_upcoming_step(message: str):
-    # Using python standard print function cause click.echo does not provided end parameter
+    # Using python standard print function here because click.echo does not provided end parameter
     print(f"|  ☛  {message}", end="\r")
 
 

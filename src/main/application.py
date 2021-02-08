@@ -3,6 +3,8 @@
 """ main.application: provides all cli commands."""
 
 import sys
+
+from .mqtt.client import start_connection, start_mqtt_connection_blocking
 from undictify import type_checked_call
 from typing import Optional, NewType, List
 from io import BufferedReader
@@ -70,3 +72,16 @@ def start(config: Optional[BufferedReader]):
         sys.exit(1)
 
     print_info_header("Startup process successful!")
+    print_blank_line()
+
+    print_info_header("Connecting to the MQTT Broker")
+    print_step_separator()
+
+    # Blocking call that processes network traffic, dispatches callbacks and
+    # handles reconnecting.
+    start_mqtt_connection_blocking(app_config)
+
+
+
+
+

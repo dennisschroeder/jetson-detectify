@@ -1,5 +1,5 @@
 mqtt_broker:
-  username: username
-  password: password
+  username: mosq
+  password: 756brMs1
   host: 192.168.178.62
-  port: 1884
+  port: 1883
