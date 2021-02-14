@@ -7,7 +7,7 @@ from peewee import ModelBase
 
 def connect_to_database() -> bool:
     print_upcoming_step("Connecting to database!")
-    connection_successful = db.connect()
+    connection_successful: bool = db.connect()
     if not connection_successful:
         print_error_step("Connecting to database failed!")
 
@@ -26,7 +26,7 @@ def create_tables(tables: List[ModelBase]):
 
 def disconnect_from_database() -> bool:
     print_upcoming_step("Disconnecting from database!")
-    disconnecting_successful = db.close()
+    disconnecting_successful: bool = db.close()
     if not disconnecting_successful:
         print_error_step("Disconnecting from database failed!")
 
