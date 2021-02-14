@@ -2,7 +2,7 @@ import socket
 from contextlib import closing
 
 from . import Host, Port
-from .initialization import ApplicationSettings
+from .initialization import ApplicationSettings, create_default_application_settings
 from .util import read_application_init_data
 from .configuration.models import ApplicationConfig, InitData
 
@@ -10,7 +10,7 @@ from .console_logging import print_upcoming_step, print_error_step, print_succes
 
 
 def check_if_application_init_process_ran_successfully() -> bool:
-    settings = ApplicationSettings.create_default()
+    settings: ApplicationSettings = create_default_application_settings()
     print_upcoming_step("Checking jetson module availability")
     try:
         init_json: InitData = read_application_init_data(settings.application_init_report_file)

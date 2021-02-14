@@ -131,3 +131,6 @@ dmypy.json
 # IDEA
 .idea/*
 .DS_Store
+
+# SQLite3
+*.db

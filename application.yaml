@@ -3,3 +3,4 @@ mqtt_broker:
   password: 756brMs1
   host: 192.168.178.62
   port: 1883
+  root_topic: homeassistant

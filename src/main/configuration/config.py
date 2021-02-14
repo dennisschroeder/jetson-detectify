@@ -6,14 +6,14 @@ import sys
 from typing import Optional
 
 from .. import FilePath
-from ..initialization import ApplicationSettings
+from ..initialization import create_default_application_settings
 from undictify import type_checked_call
 from ..util import print_error_message
 from ruamel.yaml import YAML
 from io import BufferedReader
 from .models import ApplicationConfig
 
-_DEFAULT_CONFIG_FILE_PATH = ApplicationSettings.create_default().application_settings_file
+_DEFAULT_CONFIG_FILE_PATH: FilePath = create_default_application_settings().application_settings_file
 
 
 @type_checked_call()

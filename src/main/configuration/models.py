@@ -6,13 +6,14 @@ from dataclasses import dataclass
 from undictify import type_checked_constructor
 
 
-@type_checked_constructor()
+@type_checked_constructor(convert=True)
 @dataclass
 class MqttBroker:
     username: str
     password: str
     host: str
     port: int
+    root_topic: str
 
 
 @type_checked_constructor()
